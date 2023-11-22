@@ -1,6 +1,7 @@
 // Name: study music
 
 import "@johnlindquist/kit";
+import "dotenv/config";
 
 const getLofi = async () => {
   const url =
@@ -8,7 +9,7 @@ const getLofi = async () => {
   const options = {
     method: "GET",
     headers: {
-      "X-RapidAPI-Key": "788e17aae3msh8c510bbeab7549ep1020c1jsndd7a758904a9",
+      "X-RapidAPI-Key": process.env.API_KEY,
       "X-RapidAPI-Host": "youtube-v31.p.rapidapi.com",
     },
   };
@@ -68,7 +69,40 @@ const videoGameMusic = [
   },
 ];
 
-let music = await arg("Select music genre", ["Lofi", "Phonk", "VideoGame"]);
+const backgrounds = [
+  {
+    title:
+      "Raining in Lofi City - lofi chill night [Listen to it to escape from a hard day]",
+    link: "https://www.youtube.com/watch?v=xocnshwEbrM&t=2213s",
+    thumbnail:
+      "https://i.ytimg.com/vi/xocnshwEbrM/hq720.jpg?sqp=-oaymwEjCOgCEMoBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLCqskxBJTZ9aGwjL5eXqFSqvQoooQ",
+  },
+  {
+    title: "a peaceful place. [lofi / jazzhop / chillhop mix]",
+    link: "https://www.youtube.com/watch?v=DbuebKNKQsQ&pp=ygUWbG9maSBiYWNrZ3JvdW5kIHNjcmVlbg%3D%3D",
+    thumbnail:
+      "https://i.ytimg.com/vi/DbuebKNKQsQ/hqdefault.jpg?sqp=-oaymwEjCOADEI4CSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLAN9rQ7Pr8oI3tJgjCySaV7RTYf_Q",
+  },
+  {
+    title: "Secret Forest 🍃 Chill Lofi Beats",
+    link: "https://www.youtube.com/watch?v=NvftPSb5Xtw&pp=ygUWbG9maSBiYWNrZ3JvdW5kIHNjcmVlbg%3D%3D",
+    thumbnail:
+      "https://i.ytimg.com/vi/NvftPSb5Xtw/hq720.jpg?sqp=-oaymwEjCOgCEMoBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLAyxpitNM_z1cDRdi4EylJM0pnBTA",
+  },
+  {
+    title: "3 AM Coding Session - Lofi Hip Hop Mix [Study & Coding Beats]",
+    link: "https://www.youtube.com/watch?v=_ITiwPMUzho&pp=ygUWbG9maSBiYWNrZ3JvdW5kIHNjcmVlbg%3D%3D",
+    thumbnail:
+      "https://i.ytimg.com/vi/_ITiwPMUzho/hq720.jpg?sqp=-oaymwEjCOgCEMoBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLC_Sap_4TdYeWNwgEQni0fVLDVOPQ",
+  },
+];
+
+let music = await arg("Select music genre", [
+  "Lofi",
+  "Phonk",
+  "VideoGame",
+  "Background",
+]);
 
 if (music === "Lofi") {
   const lofi = await getLofi();
@@ -80,6 +114,7 @@ if (music === "Lofi") {
       preview: `<img src=${item.snippet.thumbnails.high.url}>`,
     }))
   );
+  open(choice.description);
 } else if (music === "Phonk") {
   let choice = await arg(
     "Select Phonk",
@@ -89,7 +124,7 @@ if (music === "Lofi") {
       preview: `<img src=${phonk.thumbnail}>`,
     }))
   );
-  open(choice.link);
+  open(choice.description);
 } else if (music === "VideoGame") {
   let choice = await arg(
     "Select VideoGame",
@@ -99,5 +134,15 @@ if (music === "Lofi") {
       preview: `<img src=${videoGame.thumbnail}>`,
     }))
   );
-  open(choice.link);
+  open(choice.description);
+} else if (music === "Background") {
+  let choice = await arg(
+    "Select Background",
+    backgrounds.map((background) => ({
+      name: background.title,
+      description: background.link,
+      preview: `<img src=${background.thumbnail}>`,
+    }))
+  );
+  open(choice.description);
 }
