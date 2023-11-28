@@ -3,6 +3,8 @@
 import "@johnlindquist/kit";
 import "dotenv/config";
 
+//TODO: condense repititive code
+
 const getLofi = async () => {
   const url =
     "https://youtube-v31.p.rapidapi.com/search?channelId=UCSJ4gkVC6NrvII8umztf0Ow&part=snippet%2Cid&order=date&maxResults=50";
@@ -18,6 +20,30 @@ const getLofi = async () => {
   const result = await response.json();
   return result;
 };
+
+const randomAssortment = [
+  {
+    title:
+      "Relax Quiet Cafe ☕ Cozy Coffee Shop with Lofi Hip Hop Mix - Beats to Study / Work to ☕ Lofi Café",
+    link: "https://www.youtube.com/watch?v=zr5JjgOMXeQ&pp=ygURY29mZmVlIHNob3AgbXVzaWM%3D",
+    thumbnail:
+      "https://i.ytimg.com/vi/zr5JjgOMXeQ/hq720.jpg?sqp=-oaymwEjCOgCEMoBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLBGZBH79GYYYZRjLm3EcgGcXIjgZw",
+  },
+  {
+    title:
+      "Focus Music for Work and Studying, Background Music for Concentration, Study Music",
+    link: "https://www.youtube.com/watch?v=_4kHxtiuML0&pp=ygUSbXVzaWMgZm9yIHN0dWR5aW5n",
+    thumbnail:
+      "https://i.ytimg.com/vi/_4kHxtiuML0/hq720.jpg?sqp=-oaymwE9COgCEMoBSFryq4qpAy8IARUAAAAAGAElAADIQj0AgKJDeAHwAQH4Af4JgALQBYoCDAgAEAEYFiBfKHIwDw==&rs=AOn4CLCuQQvAjFibvwjVN0nsvZfmMQvrqg",
+  },
+  {
+    title:
+      "It's 2:44 am and you're thinking about your life -(1 HOUR) (Sad/Loneliness Music)",
+    link: "https://www.youtube.com/watch?v=11abkhIgVng&ab_channel=RelaxWithMusic",
+    thumbnail:
+      "https://i.ytimg.com/vi/11abkhIgVng/hqdefault.jpg?sqp=-oaymwEjCOADEI4CSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLDihHy0PYt5bcnGrkhxn7X0s9h9Aw",
+  },
+];
 
 const phonkMusic = [
   {
@@ -101,6 +127,7 @@ let music = await arg("Select music genre", [
   "Lofi",
   "Phonk",
   "VideoGame",
+  "Random Assortment",
   "Background",
 ]);
 
@@ -145,4 +172,13 @@ if (music === "Lofi") {
     }))
   );
   open(choice.description);
+} else if (music === "Random Assortment") {
+  let choice = await arg(
+    "Select music",
+    randomAssortment.map((music) => ({
+      name: music.title,
+      description: music.link,
+      preview: `<img src=${music.thumbnail}>`,
+    }))
+  );
 }
